@@ -1,0 +1,2413 @@
+<?xml version="1.0" encoding="UTF-8"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xrd="http://x-road.eu/xsd/xroad.xsd" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:tns="http://arireg.x-road.eu/etoimik" targetNamespace="http://arireg.x-road.eu/etoimik" name="ETTeavitus">
+    <wsdl:documentation>E-toimiku versioon: 3.22 | X-tee sõnumiprotokolli versioon: 4.0 | Genereerimise aeg: 16.02.2023
+        12:28:14
+    </wsdl:documentation>
+    <wsdl:types>
+        <xsd:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xs:import namespace="http://www.w3.org/2005/05/xmlmime" schemaLocation="https://www.w3.org/2005/05/xmlmime"/>
+            <xs:import namespace="http://x-road.eu/xsd/xroad.xsd" schemaLocation="http://x-road.eu/xsd/xroad.xsd"/>
+        </xsd:schema>
+        <xsd:schema xmlns:tns="http://etoimik.x-road.eu/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://etoimik.x-road.eu/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xs:complexType name="Aadress">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="Aadresskood" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="AadressTekst" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ADR_ID" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="AlevKylaLinnaosaKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Hooneosa" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="LinnValdKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="MaakondKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="MajaKrunt" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="RiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Sihtnumber" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Tanav" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="AllkirjastamiseInfo">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="Allkirjastaja" nillable="true" type="tns:Isik"/>
+                    <xs:element minOccurs="0" name="AllkirjastamiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="LiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Sisu" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Ametikoht">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="AmetikohaNimetus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="LopetatudKlassideArv" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="LoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="MuuInfo" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Organisatsiooniyksus" nillable="true" type="tns:JuriidilineIsik"/>
+                    <xs:element minOccurs="0" name="OrganisatsiooniyksuseNimetus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="RiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="RollKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="StaatusKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="SulgemiseKP" nillable="true" type="xs:dateTime"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Ametnik">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:Isik">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="AmetKL" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="Eesnimi" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="Organisatsiooniyksus" nillable="true" type="tns:JuriidilineIsik"/>
+                            <xs:element minOccurs="0" name="OrganisatsiooniyksusCSV" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="TootamiseObjektID" type="xs:long"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="Annotatsioon">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Alustaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Lopetaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="LoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Marksonad" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Marksona"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="SeisundKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Sisu" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SulgemiseKP" nillable="true" type="xs:dateTime"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Asi">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Alustaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="AsjaAlustamiseFaabula" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="AsjaAlustamiseKvalifikatsioonCSV" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="AsjaNR" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="AvaldamiseleMittekuuluv" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="KlientsysteemiID" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Kohtuasjad" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Kohtuasi"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="LiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Menetlused" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Menetlus"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="ParitoluKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="SalastatuseTaseKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="StaadiumKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="StaadiumKP" nillable="true" type="xs:dateTime"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Avalikustamine">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="AvalikustamiseMargeKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Failid" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Fail"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Lisainfo" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="LoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Toiming" nillable="true" type="tns:Toiming"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="ETHoiatus">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="VeaGrupp" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="VeaKood" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="VeaSonum" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Fail">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Allkirjad" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:AllkirjastamiseInfo"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Alustaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="JrkNr" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="Kirjeldus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="KlientsysteemiID" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Laiend" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Maht" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Nimetus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="SeotudFailid" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:SeotudFail"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element xmime:expectedContentTypes="application/octet-stream" minOccurs="0" name="Sisu" nillable="true" type="xs:base64Binary" xmlns:xmime="http://www.w3.org/2005/05/xmlmime"/>
+                    <xs:element minOccurs="0" name="ViimatiMuudetud" nillable="true" type="xs:dateTime"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="FailiTeavitus">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:StandardTeavitus">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="Failid" nillable="true">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Fail"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element minOccurs="0" name="PohiFail" nillable="true" type="tns:Fail"/>
+                            <xs:element minOccurs="0" name="ToiminguObjektID" type="xs:long"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="fault">
+                <xs:sequence>
+                    <xs:element name="faultCode" type="xs:string"/>
+                    <xs:element name="faultString" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="FyysilineIsik">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:Isik">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="DokumendiNimetus" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="DokumendiNR" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="DokumendiTyypKL" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="Eesnimi" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="EmakeelKL" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="EmaNimi" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="HaridusKL" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="HyydNimed" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="IsaNimi" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="KIRArvelolekAlgusKP" nillable="true" type="xs:dateTime"/>
+                            <xs:element minOccurs="0" name="KIRArvelolekKL" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="KodakondsusKL" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="MitmikKodakondsusKL" nillable="true">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element minOccurs="0" maxOccurs="unbounded" name="item" type="xs:long"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element minOccurs="0" name="PerekonnaseisKL" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="SuguKL" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="SuhtluskeelKL" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="SurmaKP" nillable="true" type="xs:dateTime"/>
+                            <xs:element minOccurs="0" name="Synnikoht" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="SynniKP" nillable="true" type="xs:dateTime"/>
+                            <xs:element minOccurs="0" name="TeisedNimed" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="TookohtvOppeasutus" nillable="true">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Ametikoht"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="Isik" abstract="true">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AetEpost" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="AinultPohiandmed" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Alustaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="EelnevadKoosnimedCSV" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Hoiatused" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:ETHoiatus"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="KaristusteYlevaatamiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="KlientsysteemiID" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Kohustised" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Kohustis"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Kontaktid" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Kontakt"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Kontod" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Konto"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Kood" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Koosnimi" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="LoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Markused" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="MenetlusSubjektiLiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="MuudeRiikideKoodid" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Muutja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="MuutmiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Nimi" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="OnValideeritudAktuaalneVersioon" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="Sisestaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SisestamiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="SulgemiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="TegevusalaKL" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" type="xs:long"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="VerAlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="VerLoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="VersID" type="xs:long"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="IsikuTeavitus">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:StandardTeavitus">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="Isik" nillable="true" type="tns:Isik"/>
+                            <xs:element minOccurs="0" name="IsikuObjektID" type="xs:long"/>
+                            <xs:element minOccurs="0" name="IsikuVersID" type="xs:long"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="Istungisaal">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Kohtumaja" nillable="true" type="tns:JuriidilineIsik"/>
+                    <xs:element minOccurs="0" name="LoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Nimetus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="JuriidilineIsik">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:Isik">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="OrganisatsiooniYksused" nillable="true">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:JuriidilineIsik"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element minOccurs="0" name="TegevusAlgusKP" nillable="true" type="xs:dateTime"/>
+                            <xs:element minOccurs="0" name="TegevusLoppKP" nillable="true" type="xs:dateTime"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="Kattetoimetamine">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="KattesaamiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="KattesaamiseViisKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="KattesaanudIsikud" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:FyysilineIsik"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Kommentaar" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="SaatmiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="SaatmiseViisKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="TagastamiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="TagastamisePohjusKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="TyhistamisePohjendus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Tyhistatud" nillable="true" type="xs:boolean"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Kohtuasi">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Asi" nillable="true" type="tns:Asi"/>
+                    <xs:element minOccurs="0" name="KlientsysteemiID" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Menetlused" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Menetlus"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="MenetlusteArv" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Pealkiri" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="RegistreerimiseKP" nillable="true" type="xs:dateTime"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Kohtutoiming">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:Toiming">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="Annotatsioonid" nillable="true">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Annotatsioon"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element minOccurs="0" name="IstungiNumber" nillable="true" type="xs:int"/>
+                            <xs:element minOccurs="0" name="Istungisaalid" nillable="true">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Istungisaal"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element minOccurs="0" name="KinniseksKuulutamiseAlusKL" nillable="true">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element minOccurs="0" maxOccurs="unbounded" name="item" type="xs:long"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element minOccurs="0" name="KinniseksKuulutamisePohjus" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="KolleegiumiKoosseisKL" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="KorraldavMaarusKL" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="MojutatavadToimingud" nillable="true">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Toiming"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element minOccurs="0" name="Oigusaktid" nillable="true">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Oigusakt"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="Kohustis" abstract="true">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Alustaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ArvestatudSumma" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="ArvestatudSummaValuutaKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="EnnistatavadKohustised" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Kohustis"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Hoiatused" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:ETHoiatus"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="KlientsysteemiID" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="KohustiseMaaranudToiming" nillable="true" type="tns:Toiming"/>
+                    <xs:element minOccurs="0" name="KohustistViimatiMojutanudToiming" nillable="true" type="tns:Toiming"/>
+                    <xs:element minOccurs="0" name="Laekumised" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Laekumine"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Lopetaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="LopetatavadKohustised" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Kohustis"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="LoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Maksegraafik" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:OsaMakse"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="MaksegraafikOnTyhistatav" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="MakseRekvisiidid" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:MakseRekvisiidid"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="MoistetudOriginaalSumma" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="MoistetudOriginaalSummaValuutaKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="MoistetudSumma" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="MoistetudSummaValuutaKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Muutja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="MuutmiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Osaline" nillable="true" type="tns:Osaline"/>
+                    <xs:element minOccurs="0" name="OsaMaksed" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:OsaMakse"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="RakendamiseLoppAlusKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="RakendamiseLoppPohjendus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="RakendamiseTahtaegKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="RakendumiseAlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="RakendumiseLoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="SeisundidKL" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Olek"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="SeisundKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="SeisundKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Selgitus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Sisestaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SisestamiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="SulgemiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Tagasimaksed" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Tagasimakse"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Taidetud" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="TaitmiseTapsustusKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="TaodeldavSumma" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="TaodeldavSummaValuutaKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="TasutudSumma" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="TasutudSummaValuutaKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Tyhistatud" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="Vabastatud" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="Vastutaja" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Osaline"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="VastutamiseAlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="VastutamiseLoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="VersID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="VoibKandaOsiti" nillable="true" type="xs:boolean"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="KohustiseTeavitus">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:StandardTeavitus">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="Kohustis" nillable="true" type="tns:Kohustis"/>
+                            <xs:element minOccurs="0" name="KohustiseObjektID" type="xs:long"/>
+                            <xs:element minOccurs="0" name="KohustiseVersID" type="xs:long"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="Komplekt">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="GrupiNr" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="KomplektiNr" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="LiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Menetlus" nillable="true" type="tns:Menetlus"/>
+                    <xs:element minOccurs="0" name="Muutja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="MuutmiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Nahtavused" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:KomplektiNahtavus"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Nimetus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Omanik" nillable="true" type="tns:Isik"/>
+                    <xs:element minOccurs="0" name="SeisundKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="SeotudMenetlused" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Menetlus"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Sisestaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SisestamiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Sisu" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="VersID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="VersioonideArv" type="xs:int"/>
+                    <xs:element minOccurs="0" name="VersiooniKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="VersiooniLoppKP" nillable="true" type="xs:dateTime"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="KomplektiNahtavus">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="Isik" nillable="true" type="tns:Isik"/>
+                    <xs:element minOccurs="0" name="NahtavuseAlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="NahtavuseLoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Sisestaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SisestamiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Toiming" nillable="true" type="tns:Toiming"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Kontakt">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="Aadress" nillable="true" type="tns:Aadress"/>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="KontaktTekst" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="LiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="LoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Markused" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="StaatusKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="SulgemiseKP" nillable="true" type="xs:dateTime"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Konto">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="BIC" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="KontoHaldur" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="KontoNR" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="KontoOmanik" nillable="true" type="tns:Isik"/>
+                    <xs:element minOccurs="0" name="LoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="SulgemiseKP" nillable="true" type="xs:dateTime"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Kulu">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlaLiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="AluseksOlevadNouded" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Noue"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="AluselTekkinudNouded" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Noue"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Hoiatused" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:ETHoiatus"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="KandmiseOsad" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:KuluOsa"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="KlientsysteemiID" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="KuluSaajaIsik" nillable="true" type="tns:Isik"/>
+                    <xs:element minOccurs="0" name="LiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="LoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Menetlus" nillable="true" type="tns:Menetlus"/>
+                    <xs:element minOccurs="0" name="Muutja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="MuutmiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="PohjustamiseJagamiseViisKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="PohjustamiseOsad" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:KuluOsa"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Selgitus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SeotudToimingud" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Toiming"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Sisestaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SisestamiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="SulgemiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Summa" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="TekkimiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Toiming" nillable="true" type="tns:Toiming"/>
+                    <xs:element minOccurs="0" name="TyypKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="ValuutaKL" nillable="true" type="xs:long"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="KuluOsa">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="OnRiigiOsa" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="Osaline" nillable="true" type="tns:Osaline"/>
+                    <xs:element minOccurs="0" name="OsaSumma" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="SulgemiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="ValuutaKL" nillable="true" type="xs:long"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="KvalifikatsiooniParagrahv">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:SeaduseSate">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="KlientsysteemiID" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="SulgemiseKP" nillable="true" type="xs:dateTime"/>
+                            <xs:element minOccurs="0" name="Syyteosyndmus" nillable="true" type="tns:Syyteosyndmus"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="Laekumine">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="KontoNR" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="LaekumiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="LaekumiseSumma" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="LaekumiseSummaValuutaKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="MakseId" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="MakseSelgitus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="MakseViisKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="MaksjaKood" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="MaksjaNimi" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="MaksmiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="MuutuseLiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Viitenumber" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="MakseRekvisiidid">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:Konto">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="MakseSaaja" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="MakseSaajaKood" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="MakseSelgitus" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="MakseValisriiki" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="ViiteNumber" nillable="true" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="Marksona">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlamMarksonad" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Marksona"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Alustaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="AsendatavadMarksonad" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Marksona"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="JrkNrHarus" type="xs:int"/>
+                    <xs:element minOccurs="0" name="Lopetaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="LoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="SulgemiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Vaartus" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Meeldetuletus">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="Adressaadid" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Isik"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="LiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="MeeldetuletuseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Menetlus" nillable="true" type="tns:Menetlus"/>
+                    <xs:element minOccurs="0" name="Muutja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="MuutmiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Omanik" nillable="true" type="tns:Isik"/>
+                    <xs:element minOccurs="0" name="Pealkiri" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SeisundKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Seosed" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Sisestaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SisestamiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Sisu" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="MeeldetuletuseTeavitus">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:StandardTeavitus">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="Meeldetuletus" nillable="true" type="tns:Meeldetuletus"/>
+                            <xs:element minOccurs="0" name="MeeldetuletuseObjektID" type="xs:long"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="Menetlus">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Alustaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ArhiveerimiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Asi" nillable="true" type="tns:Asi"/>
+                    <xs:element minOccurs="0" name="AsjaAlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="AsjaAlustamiseFaabula" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="AsjaAlustamiseKvalifikatsioonCSV" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="AsjaLiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="AsjaMenetlevRiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="AsjaNR" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="AsjaObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="AsjaParitoluKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="AsjaStaadiumKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="AsjaStaadiumKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="AvaldamiseleMittekuuluvAsi" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="AvalikNimetus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Digitaalne" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="EuroJustKaasatud" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="Failid" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Fail"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="HagiHind" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="HagiHindValuutaKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="HagiTagamineEsialgneOiguskaitse" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="Hoiatused" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:ETHoiatus"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="JrkNr" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="Kiireloomuline" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="KlientsysteemiID" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Kohtuasi" nillable="true" type="tns:Kohtuasi"/>
+                    <xs:element minOccurs="0" name="KOLANr" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="KolleegiumiKoosseisKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Komplektid" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Komplekt"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Kontakt" nillable="true" type="tns:MenetluseKontakt"/>
+                    <xs:element minOccurs="0" name="Kulud" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Kulu"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="LahendiTeatavakstegemiseAegKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="LoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Meeldetuletused" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Meeldetuletus"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="MenetlejaOnMaaramata" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="MenetlemiseAlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="MenetlenudValisriigiAsutus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="MenetlevadAsutused" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:JuriidilineIsik"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="MenetlevadAsutusedCSV" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="MenetluseNR" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="MenetluseNrKoosJrkNr" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="MenetluseSisulineLiigitus" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:MenetluseSisulineLiigitus"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="MenetlusLiigiAlaLiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="MenetlusLiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="MenetlusPost" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:MenetlusPost"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="MuuJuurdepaasupiirang" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="MuuJuurdepaasupiiranguPohjendus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Nimetus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Nouded" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Noue"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="OigusabiMenetlusabiSaamine" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="Olemid" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Olem"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Osalised" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Osaline"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="PuudutabAlaealisi" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="RegistreerimiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="SalastatuseTaseKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Salvestised" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Salvestis"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Sanktsioonid" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Sanktsioon"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="SeaduseSatted" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:SeaduseSate"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="SeisundKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="SeisundKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="SeotudAsjad" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:SeotudMenetlus"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="SeotudMenetlused" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:SeotudMenetlus"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Syyteosyndmused" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Syyteosyndmus"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="TagastatudAinultPohiandmed" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="Toimingud" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Toiming"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Tutvumised" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Tutvumine"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="TyypKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="ValisriigiKraNumber" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="VastutavadMenetlejadCSV" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="MenetluseKontakt">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Lisainfo" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Telefon" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="MenetluseSisulineLiigitus">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="KaebuseProtestiLiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="KategooriaKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="KlientsysteemiID" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="LahenduseKirjeldus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="LahenduseLisainfoKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="LahenduseMaaranudToiming" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="LahendusKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="LoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="MenetluseTaiendavaLiigiAlaLiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="MenetluseTaiendavLiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Muutja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="MuutmiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="PeamineMaaramiseAlus" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="Sisestaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SisestamiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Sisu" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SisulineLiigitusKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="SulgemiseKP" nillable="true" type="xs:dateTime"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="MenetluseTeavitus">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:StandardTeavitus">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="AsjaLiikKL" type="xs:long"/>
+                            <xs:element minOccurs="0" name="AsjaNR" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="AsjaObjektID" type="xs:long"/>
+                            <xs:element minOccurs="0" name="Menetlus" nillable="true" type="tns:Menetlus"/>
+                            <xs:element minOccurs="0" name="MenetluseMenetlevadAsutusedCSV" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="MenetluseNR" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="MenetluseObjektID" type="xs:long"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="MenetluseTeavitusAET">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:StandardTeavitus">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="Menetlus" nillable="true" type="tns:Menetlus"/>
+                            <xs:element minOccurs="0" name="MenetlustNagevadIsikud" nillable="true">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Isik"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="MenetlusPost">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="Adressaat" nillable="true" type="tns:Isik"/>
+                    <xs:element minOccurs="0" name="EdasikaebamiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Edasikaevatav" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="JargnevMenetlus" nillable="true" type="tns:Menetlus"/>
+                    <xs:element minOccurs="0" name="Kattetoimetamised" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Kattetoimetamine"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="NahtavuseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="NouabKattesaamist" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="OnKattesaadud" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="OodatakseVastust" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="Toiming" nillable="true" type="tns:Toiming"/>
+                    <xs:element minOccurs="0" name="VaatamisOiguseAndmine" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="VastusnoudeKP" nillable="true" type="xs:dateTime"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="NoudeOsa">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="JagamiseViisKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="KlientsysteemiID" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="LoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Noue" nillable="true" type="tns:Noue"/>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="OsaNouded" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:OsaNoue"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="SulgemiseKP" nillable="true" type="xs:dateTime"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Noue">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlaLiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="AluseksOlevadKulud" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Kulu"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="AluseksOlevadSyyteosyndmused" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Syyteosyndmus"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="AluselTekkinudKulud" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Kulu"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Alustaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="KlientsysteemiID" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="KohustuslikNoue" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="LiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Lopetaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="LoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Muutja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="MuutmiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="NoudeEse" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Noudeosad" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:NoudeOsa"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="NoudeSumma" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="NoudeSummaValuutaKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="OigustatudIsik" nillable="true" type="tns:Osaline"/>
+                    <xs:element minOccurs="0" name="Sisestaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SisestamiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="SulgemiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="TyypKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="VerAlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="VerLoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="VersID" type="xs:long"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Oigusakt">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="Alampunkt" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="GlobaalID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Loige" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Paragrahv" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Sisu" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="TerviktekstiGrupiID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Viide" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Olek">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="LoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="OlekKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="OlekuMargeKL" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" type="xs:long"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Selgitus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ToiminguNR" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ToiminguObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="ToiminguTegijaAsutusCSV" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ToiminguTegijaCSV" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Olem">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Alustaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="AravotmiseAadress" nillable="true" type="tns:TegevuseKoht"/>
+                    <xs:element minOccurs="0" name="AsitoendiTunnusedKL" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" type="xs:long"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Failid" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Fail"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Kirjeldus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="KlientsysteemiID" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="LiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="LoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Menetlused" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Menetlus"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Muutja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="MuutmiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Nimetus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="OlemikaardiVersioon" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="Olemikaart" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="OlemiNr" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="PrognoositavHoiukulu" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="PrognoositavHoiukuluYhikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Salvestised" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Salvestis"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="SeisundKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="SeotudIsikud" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:OlemIsikSeos"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="SeotudOlemid" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:SeotudOlem"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="SeotudSumma" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="Sisestaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SisestamiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="StaatusKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="TahtaegKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Toimingud" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Toiming"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="TyypKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Vara" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="VersID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="VersiooniKP" nillable="true" type="xs:dateTime"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="OlemIsikSeos">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Alustaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Isik" nillable="true" type="tns:Isik"/>
+                    <xs:element minOccurs="0" name="LoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="SeoseLiikKL" nillable="true" type="xs:long"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="OlemiTeavitus">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:StandardTeavitus">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="Olem" nillable="true" type="tns:Olem"/>
+                            <xs:element minOccurs="0" name="ToiminguObjektID" nillable="true" type="xs:long"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="Osaline">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Alustaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Esindajad" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Osaline"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Esindatavad" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Osaline"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Hoiatused" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:ETHoiatus"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Isik" nillable="true" type="tns:Isik"/>
+                    <xs:element minOccurs="0" name="IsikCSV" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Kahtlustus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="KlientsysteemiID" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Kvalifikatsioon" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:KvalifikatsiooniParagrahv"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="KvalifikatsioonCSV" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Leppenimi" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="LiikAsjasKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="LiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Lopetaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="LoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Markused" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Muutja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="MuutmiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Nouded" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Noue"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="ObjektideLoetelu" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="OsalistIseloomustavadAndmed" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="PaevaSissetulek" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="PaevaSissetulekKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="PaevaSissetulekValuutaKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="RikutudOigusnorm" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:KvalifikatsiooniParagrahv"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="RikutudOigusnormCSV" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SalastatuseTaseKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Sanktsioonid" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Sanktsioon"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="SeotudAsjad" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Menetlus"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Sisestaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SisestamiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="SuheKahtlustatavagaKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="SuheKannatanugaKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="SulgemiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="SyydIseloomustab" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Syydistus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SyydistusPunktid" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:SyydistusPunkt"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="SyydToendavadToimingud" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Toiming"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="SyydToendavateToiminguteLoetelu" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Syyteosyndmused" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Syyteosyndmus"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="TagastatudAinultPohiandmed" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="Toimingud" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Toiming"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="VaradeLoetelu" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="VarasemKaristatus" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="VarasemKaristatusKirjeldus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="VastutatavadKohustised" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Kohustis"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="VerAlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="VerLoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="VersID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Volad" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:OsaNoue"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="OsaMakse">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Alustaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Hoiatused" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:ETHoiatus"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Kohustis" nillable="true" type="tns:Kohustis"/>
+                    <xs:element minOccurs="0" name="MoistetudPaevamaaradeArv" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="MoistetudSumma" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="MoistetudSummaValuutaKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="RakendumiseLoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="RakendumiseTahtaegKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="SeisundKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="SeisundKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="SissenoutavSumma" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="SissenoutavSummaValuutaKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="SulgemiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="SundtaitmiseSeisundKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Taidetud" nillable="true" type="xs:boolean"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="OsaNoue">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:Kohustis">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="Maksmiseinfo" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="MoistetudMurdosa" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="Noudeosa" nillable="true" type="tns:NoudeOsa"/>
+                            <xs:element minOccurs="0" name="OnRiigiOsaNoue" nillable="true" type="xs:boolean"/>
+                            <xs:element minOccurs="0" name="TaodeldudMurdosa" nillable="true" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="RiigiOigusabi">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="Kaugus" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="KaugusYhikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Kirjeldus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="KlientsysteemiID" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Koefitsient" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="LiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="MaaratudTasuSumma" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="MaaratudTasuSummaKM" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="MaaratudTasuSummaValuutaKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Markused" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="OsutamiseAeg" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="OsutamiseAegYhikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="OsutamiseAlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="OsutamiseKoht" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="OsutamiseLoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="TasuSumma" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="TasuSummaKM" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="TasuSummaValuutaKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="TyypKL" nillable="true" type="xs:long"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Salvestis">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Alustaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="JrkNr" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="Kirjeldus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="LiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Luba" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Nimetus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Sanktsioon">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:Kohustis">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="AlaLiikKL" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="AllutadaKaitumiskontrollile" nillable="true" type="xs:boolean"/>
+                            <xs:element minOccurs="0" name="AluseksOlevadSeaduseSatted" nillable="true">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:SeaduseSate"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element minOccurs="0" name="AluseksOlevadSyydistusPunktid" nillable="true">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:SyydistusPunkt"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element minOccurs="0" name="AluseksOlevadSyydistusPunktidCSV" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="AluseksOlevadSyyteosyndmused" nillable="true">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Syyteosyndmus"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element minOccurs="0" name="ArhiveerimiseKP" nillable="true" type="xs:dateTime"/>
+                            <xs:element minOccurs="0" name="EelvangistusesViibitudPaevadeArv" nillable="true" type="xs:int"/>
+                            <xs:element minOccurs="0" name="EnnetahtaegseVabanemiseAlgusKP" nillable="true" type="xs:dateTime"/>
+                            <xs:element minOccurs="0" name="KatseajaAlgusKP" nillable="true" type="xs:dateTime"/>
+                            <xs:element minOccurs="0" name="KatseajaTegelikLoppKP" nillable="true" type="xs:dateTime"/>
+                            <xs:element minOccurs="0" name="LiikKL" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="MoistetudAastaid" nillable="true" type="xs:int"/>
+                            <xs:element minOccurs="0" name="MoistetudKatseajaAastaid" nillable="true" type="xs:int"/>
+                            <xs:element minOccurs="0" name="MoistetudKatseajaKuid" nillable="true" type="xs:int"/>
+                            <xs:element minOccurs="0" name="MoistetudKatseajaPaevi" nillable="true" type="xs:int"/>
+                            <xs:element minOccurs="0" name="MoistetudKuid" nillable="true" type="xs:int"/>
+                            <xs:element minOccurs="0" name="MoistetudPaevamaaradeArv" nillable="true" type="xs:int"/>
+                            <xs:element minOccurs="0" name="MoistetudPaevi" nillable="true" type="xs:int"/>
+                            <xs:element minOccurs="0" name="MoistetudTunde" nillable="true" type="xs:int"/>
+                            <xs:element minOccurs="0" name="OnArhiveeritud" nillable="true" type="xs:boolean"/>
+                            <xs:element minOccurs="0" name="PohiKaristus" nillable="true" type="tns:Sanktsioon"/>
+                            <xs:element minOccurs="0" name="TaodeldavaidAastaid" nillable="true" type="xs:int"/>
+                            <xs:element minOccurs="0" name="TaodeldavaidKuid" nillable="true" type="xs:int"/>
+                            <xs:element minOccurs="0" name="TaodeldavaidPaevi" nillable="true" type="xs:int"/>
+                            <xs:element minOccurs="0" name="TaodeldavaidTunde" nillable="true" type="xs:int"/>
+                            <xs:element minOccurs="0" name="TaodeldavPaevamaaradeArv" nillable="true" type="xs:int"/>
+                            <xs:element minOccurs="0" name="TaodeldudKatseajaAastaid" nillable="true" type="xs:int"/>
+                            <xs:element minOccurs="0" name="TaodeldudKatseajaKuid" nillable="true" type="xs:int"/>
+                            <xs:element minOccurs="0" name="TaodeldudKatseajaPaevi" nillable="true" type="xs:int"/>
+                            <xs:element minOccurs="0" name="TegelikKandmiseAlgusKP" nillable="true" type="xs:dateTime"/>
+                            <xs:element minOccurs="0" name="TekeKL" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="Toimingud" nillable="true">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Toiming"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element minOccurs="0" name="TyypKL" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="VabastatavKaristus" nillable="true" type="tns:Sanktsioon"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="SeaduseSate">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="JaguNR" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="JaoNimetusKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="JaotiseNimetusKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="JaotisNR" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="LiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Loige" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="LoigePrimm" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="LoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Paragrahv" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ParagrahvPrimm" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="PeatykiNimetusKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="PeatykkNR" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Punkt" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="PunktPrimm" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SeadustikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Tekst" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="TekstLyhendatult" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="SeotudFail">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:Fail">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="SeoseLiikKL" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="SidumiseKP" nillable="true" type="xs:dateTime"/>
+                            <xs:element minOccurs="0" name="YlemFail" nillable="true" type="xs:boolean"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="SeotudMenetlus">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:Menetlus">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="MenetlejadCSV" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="Peaasi" nillable="true" type="xs:boolean"/>
+                            <xs:element minOccurs="0" name="SidumiseAlusKL" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="SidumiseKP" nillable="true" type="xs:dateTime"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="SeotudOlem">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:Olem">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="SeoseLiikKL" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="SidumiseKP" nillable="true" type="xs:dateTime"/>
+                            <xs:element minOccurs="0" name="YlemOlem" nillable="true" type="xs:boolean"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="StandardTeavitus">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="AsutusCSV" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="AsutusObjektID" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="IsikCSV" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="IsikObjektID" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Menetlused" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Menetlus"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="TeavitamiseEesmarkKL" nillable="true" type="xs:long"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="SyydistusPunkt">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="KlientsysteemiID" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="KvalifikatsiooniParagrahvid" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:KvalifikatsiooniParagrahv"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="LahendiKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="LahendKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="LoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="SeotudKaristused" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Sanktsioon"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="SulgemiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="SyydistusPunktCSV" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Syyteosyndmus" nillable="true" type="tns:Syyteosyndmus"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Syyteosyndmus">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Alustaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Avaldused" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Toiming"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="EemaldamisePohjendus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="EemaldamisePohjusKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Faabula" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Hoiatused" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:ETHoiatus"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="KahtlTookohtadToimepAjalKL" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" type="xs:long"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="KannatanuCSV" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="KannatanuJooveKL" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" type="xs:long"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="KannatanuSuheKahtlvSyydistKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="KlientsysteemiID" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="KohaliikKL" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" type="xs:long"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Kvalifikatsioon" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:KvalifikatsiooniParagrahv"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="KvalifikatsioonCSV" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="LiigitusTunnusedKL" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" type="xs:long"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Lopetaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="LoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Menetlused" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Menetlus"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="MotiivKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="MuuTervisekahjustuseSaanuteArv" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="Muutja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="MuutmiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="ObjektideLoetelu" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Osalised" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Osaline"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="PrioriteetKL" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" type="xs:long"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="RahaliseKahjuSuurus" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="RahaliseKahjuValuutaKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="RaskeTervisekahjustuseSaanuteArv" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="RelvaliikJaKasutamineKL" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" type="xs:long"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="RikutudOigusnorm" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:KvalifikatsiooniParagrahv"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="RikutudOigusnormCSV" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SeisundidKL" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Olek"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="SeisundKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="SeisundKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Sisestaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SisestamiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="SulgemiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="SurmaSaanuteArv" nillable="true" type="xs:int"/>
+                    <xs:element minOccurs="0" name="SyystatavCSV" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SyyteoNR" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SyyteoObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="TaideviijaJooveKL" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" type="xs:long"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="TegevuseKoht" nillable="true" type="tns:TegevuseKoht"/>
+                    <xs:element minOccurs="0" name="Toimingud" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Toiming"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="ToimumiseAlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="ToimumiseLoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="ToimumisKohaKirjeldus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="VagivaldKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="VerAlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="VerLoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="VersID" type="xs:long"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Tagasimakse">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="Kohustis" nillable="true" type="tns:Kohustis"/>
+                    <xs:element minOccurs="0" name="Lisainfo" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="MKR_ID" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="RiigituludesseArvatavSumma" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="RiigituludesseArvatavSummaValuutaKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="TagastatavSumma" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="TagastatavSummaValuutaKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="TagastuseSaajaRekvisiidid" nillable="true" type="tns:MakseRekvisiidid"/>
+                    <xs:element minOccurs="0" name="Viivitamatu" nillable="true" type="xs:boolean"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="Tagastamine">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="Lisainfo" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Tagastaja" nillable="true" type="tns:Ametnik"/>
+                    <xs:element minOccurs="0" name="TagastamiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="TyhistamiseKP" nillable="true" type="xs:dateTime"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="TegevuseKoht">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:Aadress">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="PunktiXKoordinaat" nillable="true" type="xs:decimal"/>
+                            <xs:element minOccurs="0" name="PunktiYKoordinaat" nillable="true" type="xs:decimal"/>
+                            <xs:element minOccurs="0" name="Selgitus" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="TegevuseAlgusKP" nillable="true" type="xs:dateTime"/>
+                            <xs:element minOccurs="0" name="TegevuseLoppKP" nillable="true" type="xs:dateTime"/>
+                            <xs:element minOccurs="0" name="TegevuskohaNimetus" nillable="true" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="Toiming">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="AlaLiigiTapsustusKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="AlaLiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="AlgusKP" nillable="true" type="xs:dateTime">
+                        <xs:annotation>
+                            <xs:appinfo>
+                                <xrd:title xml:lang="et" xmlns:xrd="http://x-road.eu/xsd/xroad.xsd">Toimingu alustamise
+                                    kuupäev
+                                </xrd:title>
+                            </xs:appinfo>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="AllikaksOlevKlientSysteemKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Alus" nillable="true">
+                        <xs:annotation>
+                            <xs:appinfo>
+                                <xrd:title xml:lang="et" xmlns:xrd="http://x-road.eu/xsd/xroad.xsd">Viide
+                                    menetlusõigusliku aluse andvale seadusesättele (nt. KrMS), mis annab menetlejale
+                                    õiguse antud toimingut läbi viia.
+                                </xrd:title>
+                            </xs:appinfo>
+                        </xs:annotation>
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:SeaduseSate"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="AluseTapsustusKL" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" type="xs:long"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Alustaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="AlusToimingud" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Toiming"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="AsjaajamiseNumber" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Avalikustamised" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Avalikustamine"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="DigitaalseltEdastatud" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="DokumendiPostitamiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="DokumendiSaabumiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="EcliNR" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="EdasiKaebusOigusestLoobutud" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="EdasilykkamatusePohjendus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="EdastadaRaamatupidamisse" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="EdastamiseViisKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Failid" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Fail"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="GrupiNr" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="HagiTagamineEsialgneOiguskaitse" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="Hoiatused" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:ETHoiatus"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="JarjekorraNR" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="JsonSisu" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="KinnipidamiseVahendidKL" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" type="xs:long"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="KinnipidamiseVahenditeKirjeldus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="KoostamiseKoht" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="KorduvuseMargeKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Korraldused" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Kulud" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Kulu"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="LabiviimiseAlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="LabiviimiseLoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="LabiviimiseVormKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="LahendiKuulutamiseAeg" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="LahenduseLiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="LiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Lisad" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="LisaToimingud" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Toiming"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Lopetaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="LoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="MakseRekvisiidid" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:MakseRekvisiidid"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="MarksonastatusKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Markused" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Menetlus" nillable="true" type="tns:Menetlus"/>
+                    <xs:element minOccurs="0" name="MenetlusPost" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:MenetlusPost"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="MojutatavaToiminguLahenduseTapsustusKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="MojutatavaToiminguLahendusKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="MojutavadToimingud" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Toiming"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="MuuJuurdepaasupiirang" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="MuuJuurdepaasupiiranguPohjendus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Muutja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="MuutmiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Nimetus" nillable="true" type="xs:string">
+                        <xs:annotation>
+                            <xs:appinfo>
+                                <xrd:title xml:lang="et" xmlns:xrd="http://x-road.eu/xsd/xroad.xsd">Menetleja poolt
+                                    toimingule vabas vormis antud nimetus.
+                                </xrd:title>
+                            </xs:appinfo>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Nouded" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Noue"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="ObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="ObjektideLoetelu" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="OigusabiMenetlusabiSaamine" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="Olemid" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Olem"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="OlustikuKirjeldus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="PiirkondKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="PohiFail" nillable="true" type="tns:Fail"/>
+                    <xs:element minOccurs="0" name="PohiToimingud" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Toiming"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Pohjendus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ProoviTyybiKirjeldus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ProoviTyypKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="RegistrisseKandmiseEesmarkKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="RegistrisseKandmiseKirjeldus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Resolutsioon" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="RiigiOigusabi" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:RiigiOigusabi"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="RiigioigusabiAndmiseViisKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="RoaLiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="SalastatuseAlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="SalastatuseAlusKirjeldus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SalastatuseAlusKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="SalastatuseLoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="SalastatuseTaseKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Salvestised" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Salvestis"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="SeisundidKL" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Olek"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="SeisundKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="SeisundKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="SeotudToimingud" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Toiming"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="SihtMenetluseNR" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SihtMenetluseObjektID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Sisestaja" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SisestamiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Sissejuhatus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SissenoutavusKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Sisu" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SisulisedLahendused" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:MenetluseSisulineLiigitus"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="StaatusedKL" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Olek"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="StaatuseMargeKL" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" type="xs:long"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="StaatusKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="StaatusKP" nillable="true" type="xs:dateTime">
+                        <xs:annotation>
+                            <xs:appinfo>
+                                <xrd:title xml:lang="et" xmlns:xrd="http://x-road.eu/xsd/xroad.xsd">Arvutab ET StaatusKL
+                                    muutumisel.
+                                </xrd:title>
+                            </xs:appinfo>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="SulgemiseKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="SundpeatamiseVahendidKL" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" type="xs:long"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="SundpeatamiseVahenditeKirjeldus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="SundpeatatudSoiduk" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Syyteosyndmused" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Syyteosyndmus"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Tagasimaksed" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Tagasimakse"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Tagastamised" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Tagastamine"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="TagastatudAinultPohiandmed" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="TahtaegKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="TeavitamiseKirjeldus" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="TegevuseKohad" nillable="true">
+                        <xs:annotation>
+                            <xs:appinfo>
+                                <xrd:title xml:lang="et" xmlns:xrd="http://x-road.eu/xsd/xroad.xsd">Toimingu läbiviimise
+                                    koht (nt. koht, kus kahtlustatav kinni peeti).
+                                </xrd:title>
+                            </xs:appinfo>
+                        </xs:annotation>
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:TegevuseKoht"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="TehnikavahenditeLoetelu" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ToimingugaSeotudSumma" nillable="true" type="xs:decimal"/>
+                    <xs:element minOccurs="0" name="ToimingugaSeotudSummaValuutaKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="ToiminguMenetlejad" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:ToiminguOsaline"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="ToiminguMenetlejadCSV" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ToiminguNR" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Toiminguosalised" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:ToiminguOsaline"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="ToiminguosalisedCSV" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="ToiminguosaliseKontaktid" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Kontakt"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="ToiminguVastutavKontakt" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="UusMenetlevAsutus" nillable="true" type="tns:JuriidilineIsik"/>
+                    <xs:element minOccurs="0" name="VerAlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="VerLoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="VersID" type="xs:long"/>
+                    <xs:element minOccurs="0" name="VersioonideArv" type="xs:int"/>
+                    <xs:element minOccurs="0" name="ViimaseSalvestamiseAeg" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="VoibMakstaPangalingiga" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="YhendatavadEraldatavadAsjad" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Menetlus"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="YhendatavadEraldatavadAsjadCSV" nillable="true" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="ToiminguOsaline">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:Osaline">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="AllkirjastamiseKP" nillable="true" type="xs:dateTime"/>
+                            <xs:element minOccurs="0" name="AllkirjastKeeldumisePohjus" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="AllkirjastKeeldumisePohjusKL" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="IsikusamasuseTuvastamine" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="KinnipidamiseAadress" nillable="true" type="tns:Aadress"/>
+                            <xs:element minOccurs="0" name="KinnipidamiseKirjeldus" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="KinnipidamisePohjendus" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="KokkusaamiseKohad" nillable="true">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:TegevuseKoht"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element minOccurs="0" name="LopetaMenetlusTaielikult" nillable="true" type="xs:boolean"/>
+                            <xs:element minOccurs="0" name="NimiVarjatud" nillable="true" type="xs:boolean"/>
+                            <xs:element minOccurs="0" name="OsalemiseMeetodKL" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="OsaliseAvaldusedVastuvaited" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="OsaliseFaabula" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="OsaliseSisu" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="OsaliseYtlused" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="OsalistKirjeldavadAndmed" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="OsaMaksed" nillable="true">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:OsaMakse"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element minOccurs="0" name="SuhtlusKeelKL" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="Taitja" nillable="true" type="tns:Isik"/>
+                            <xs:element minOccurs="0" name="TeavitamiseKirjeldus" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="ToiminguosaliseLiikKL" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="ToiminguosaliseVanus" nillable="true" type="xs:int"/>
+                            <xs:element minOccurs="0" name="TookohadOppimised" nillable="true">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Ametikoht"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element minOccurs="0" name="VottisOsa" nillable="true" type="xs:boolean"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="ToiminguTeavitus">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:StandardTeavitus">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="AsjaNR" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="AsjaObjektID" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="Toiming" nillable="true" type="tns:Toiming"/>
+                            <xs:element minOccurs="0" name="ToiminguAlaLiikKL" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="ToiminguAlaLiikKLVaartus" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="ToiminguLiikKL" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="ToiminguLiikKLVaartus" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="ToiminguMenetluseMenetlevAsutusObjektID" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="ToiminguNR" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="ToiminguObjektID" type="xs:long"/>
+                            <xs:element minOccurs="0" name="ToiminguOsalisedCSV" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="ToiminguTegijaAsutusCSV" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="ToiminguTegijaAsutusObjektID" nillable="true" type="xs:long"/>
+                            <xs:element minOccurs="0" name="ToiminguTegijaCSV" nillable="true" type="xs:string"/>
+                            <xs:element minOccurs="0" name="ToiminguVersID" type="xs:long"/>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="ToiminguTeavitusAET">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="PohiFailiNagevadIsikud" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Isik"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Toiming" nillable="true" type="tns:Toiming"/>
+                    <xs:element minOccurs="0" name="ToimingutNagevadIsikud" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Isik"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="ToiminguteTeavitus">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:StandardTeavitus">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="Toimingud" nillable="true">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Toiming"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="ToiminguteTeavitusAET">
+                <xs:complexContent mixed="false">
+                    <xs:extension base="tns:StandardTeavitus">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" name="ToiminguteTeavitused" nillable="true">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:ToiminguTeavitusAET"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+            <xs:complexType name="Tutvumine">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="Alus" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:SeaduseSate"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Asukoht" nillable="true" type="tns:JuriidilineIsik"/>
+                    <xs:element minOccurs="0" name="Failid" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Fail"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Isikud" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Isik"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element minOccurs="0" name="Kehtetu" nillable="true" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="LiikKL" nillable="true" type="xs:long"/>
+                    <xs:element minOccurs="0" name="Markused" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Seosed" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="Sisu" nillable="true" type="xs:string"/>
+                    <xs:element minOccurs="0" name="TutvumiseAlgusKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="TutvumiseLoppKP" nillable="true" type="xs:dateTime"/>
+                    <xs:element minOccurs="0" name="Tutvustajad" nillable="true">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element minOccurs="0" maxOccurs="unbounded" name="item" nillable="true" type="tns:Isik"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:complexType>
+        </xsd:schema>
+        <xsd:schema xmlns:ns1="http://etoimik.x-road.eu/" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://arireg.x-road.eu/etoimik" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xs:element name="ETTeavitus">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="request" type="ns1:StandardTeavitus"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="ETTeavitusResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:choice>
+                            <xs:element name="response" type="xs:string"/>
+                            <xs:element name="fault" type="ns1:fault"/>
+                        </xs:choice>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="RequiredHeaders">
+        <wsdl:part name="client" element="xrd:client"/>
+        <wsdl:part name="id" element="xrd:id"/>
+        <wsdl:part name="issue" element="xrd:issue"/>
+        <wsdl:part name="protocolVersion" element="xrd:protocolVersion"/>
+        <wsdl:part name="service" element="xrd:service"/>
+        <wsdl:part name="userId" element="xrd:userId"/>
+    </wsdl:message>
+    <wsdl:message name="ETTeavitus">
+        <wsdl:part name="body" element="tns:ETTeavitus"/>
+    </wsdl:message>
+    <wsdl:message name="ETTeavitusResponse">
+        <wsdl:part name="body" element="tns:ETTeavitusResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="AriregXtee">
+        <wsdl:operation name="ETTeavitus">
+            <wsdl:input message="tns:ETTeavitus"/>
+            <wsdl:output message="tns:ETTeavitusResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="AriregXtee" type="tns:AriregXtee">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="ETTeavitus">
+            <xrd:version>v6</xrd:version>
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+                <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+                <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+                <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+                <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+                <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+                <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+                <soap:header message="tns:RequiredHeaders" part="client" use="literal"/>
+                <soap:header message="tns:RequiredHeaders" part="id" use="literal"/>
+                <soap:header message="tns:RequiredHeaders" part="issue" use="literal"/>
+                <soap:header message="tns:RequiredHeaders" part="protocolVersion" use="literal"/>
+                <soap:header message="tns:RequiredHeaders" part="service" use="literal"/>
+                <soap:header message="tns:RequiredHeaders" part="userId" use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="arireg">
+        <wsdl:port name="AriregXtee" binding="tns:AriregXtee">
+            <soap:address location="http://example.org/xroad-endpoint"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

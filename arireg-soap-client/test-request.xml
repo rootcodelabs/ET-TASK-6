@@ -1,0 +1,10 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:prod="http://arireg.x-road.eu/producer/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <prod:ettevottegaSeotudIsikudV1>
+         <prod:keha>
+            <prod:ariregistri_kood>70006317</prod:ariregistri_kood>
+         </prod:keha>
+      </prod:ettevottegaSeotudIsikudV1>
+   </soapenv:Body>
+</soapenv:Envelope>

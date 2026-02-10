@@ -1,0 +1,60 @@
+services:
+  ruuter-public:
+    container_name: ruuter-public
+    image: ruuter
+    environment:
+      - application.cors.allowedOrigins=*
+      - application.httpCodesAllowList=200,201,202,204,400,401,403,500
+      - application.internalRequests.allowedIPs=127.0.0.1
+      - application.logging.displayRequestContent=true
+      - application.logging.displayResponseContent=true
+      - application.logging.printStackTrace=true
+      - application.internalRequests.disabled=true
+      - server.port=8086
+    volumes:
+      - ./RUUTER-DSL/Ruuter.public:/DSL
+    ports:
+      - 8086:8086
+    networks:
+      - bykstack
+    cpus: "0.5"
+    mem_limit: "512M"
+
+  vault:
+   image: hashicorp/vault:latest
+   container_name: vault
+   ports:
+     - "8200:8200"
+   environment:
+     VAULT_DEV_ROOT_TOKEN_ID: root
+   cap_add:
+     - IPC_LOCK
+   networks:
+      - bykstack
+
+  xtr:
+    container_name: xtr
+    build:
+      context: .
+    ports:
+      - 8081:8080  # HTTP port (8081 external -> 8080 internal container port)
+    environment:
+      - KEYSTORE_PASSWORD=${KEYSTORE_PASSWORD:-changeit}
+      - KEY_PASS=${KEY_PASS:-changeit}
+      - VAULT_HOST=vault
+      - VAULT_TOKEN=root
+      - APPLICATION_SECURITY_SERVER=http://host.docker.internal:80/
+      - APPLICATION_ADMIN_API_URL=http://host.docker.internal:5000
+      - APPLICATION_DSLPATH=/DSL
+    volumes:
+      - ./DSL:/DSL
+      - ./ssl:/app/ssl
+    networks:
+      - bykstack
+
+networks:
+  bykstack:
+    name: bykstack
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1400

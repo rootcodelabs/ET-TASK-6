@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SOAP-ENV:Envelope
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:xroad="http://x-road.eu/xsd/xroad.xsd"
+  xmlns:id="http://x-road.eu/xsd/identifiers">
+  <SOAP-ENV:Header>
+    <xroad:client id:objectType="SUBSYSTEM">
+      <id:xRoadInstance>CS</id:xRoadInstance>
+      <id:memberClass>ORG</id:memberClass>
+      <id:memberCode>1111</id:memberCode>
+      <id:subsystemCode>TestClient</id:subsystemCode>
+    </xroad:client>
+
+    <xroad:service id:objectType="SERVICE">
+      <id:xRoadInstance>CS</id:xRoadInstance>
+      <id:memberClass>ORG</id:memberClass>
+      <id:memberCode>1111</id:memberCode>
+      <id:subsystemCode>TestService</id:subsystemCode>
+      <id:serviceCode>ettevottegaSeotudIsikudV1</id:serviceCode>
+    </xroad:service>
+
+    <xroad:id>4894e35d-bf0f-44a6-867a-8e51f1daa7e0</xroad:id>
+    <xroad:protocolVersion>4.0</xroad:protocolVersion>
+    <xroad:userId>user1</xroad:userId>
+  </SOAP-ENV:Header>
+
+  <SOAP-ENV:Body>
+      <prod:ettevottegaSeotudIsikudV1 xmlns:prod="http://arireg.x-road.eu/producer/">
+          <prod:keha>
+              <prod:ariregistri_kood>70006317</prod:ariregistri_kood>
+          </prod:keha>
+      </prod:ettevottegaSeotudIsikudV1>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

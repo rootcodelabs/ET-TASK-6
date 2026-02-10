@@ -1,0 +1,9 @@
+call_soap_time:
+  call: http.post
+  args:
+    url: "http://xtr:8080/soap/time"
+  result: time_response
+
+return_result:
+  return: ${time_response}
+

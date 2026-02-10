@@ -1,0 +1,43 @@
+.service-selector {
+  /* Styles inherited from .panel */
+}
+
+.wsdl-config {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.wsdl-config label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.url-input-group {
+  display: flex;
+  gap: 10px;
+}
+
+.url-input-group input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.selector-content {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.selector-content select {
+  flex: 1;
+}
+
+.selector-content button {
+  flex-shrink: 0;
+}

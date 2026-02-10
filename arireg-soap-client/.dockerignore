@@ -1,0 +1,6 @@
+*.md
+.git
+.gitignore
+docker-compose.yml
+Dockerfile
+*.exe

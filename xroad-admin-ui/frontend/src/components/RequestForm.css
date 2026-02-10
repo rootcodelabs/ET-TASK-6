@@ -1,0 +1,125 @@
+.request-form {
+  /* Styles inherited from .panel */
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.form-group small {
+  display: block;
+  margin-top: 0.25rem;
+  color: #888;
+  font-size: 0.85rem;
+}
+
+.template-info {
+  color: #28a745 !important;
+  font-weight: 500;
+}
+
+.params-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.param-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.param-field label {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.param-field .required {
+  color: #dc3545;
+  margin-left: 0.25rem;
+}
+
+.param-field .param-description {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: #666;
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+.param-field input {
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease;
+}
+
+.param-field input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.param-field input[type="checkbox"] {
+  width: auto;
+  margin-top: 0.5rem;
+}
+
+.info-message {
+  padding: 1rem;
+  background-color: #e7f3ff;
+  border-left: 4px solid #2196F3;
+  border-radius: 4px;
+  color: #0d47a1;
+}
+
+.textarea-container {
+  position: relative;
+}
+
+.textarea-container textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-family: 'Courier New', monospace;
+  resize: vertical;
+  transition: border-color 0.3s ease;
+}
+
+.textarea-container textarea:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.textarea-buttons {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.format-btn,
+.reset-btn {
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+}
+
+.send-btn {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}

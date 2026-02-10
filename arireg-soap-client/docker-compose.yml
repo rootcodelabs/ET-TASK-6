@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  arireg-soap-client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: arireg-soap-client
+    ports:
+      - "1236:1236"
+    restart: unless-stopped
+    environment:
+      - TZ=UTC
+    networks:
+      - soap-network
+
+networks:
+  soap-network:
+    driver: bridge

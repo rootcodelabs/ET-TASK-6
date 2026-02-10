@@ -1,0 +1,41 @@
+params: [ariregistri_kood, eesnimi, perekonnanimi]
+
+service: "http://host.docker.internal:1236/soap"
+method: POST
+headers:
+  Content-Type: "text/xml; charset=utf-8"
+envelope: >
+  <?xml version="1.0" encoding="utf-8"?>
+  <SOAP-ENV:Envelope
+    xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+    xmlns:xroad="http://x-road.eu/xsd/xroad.xsd"
+    xmlns:id="http://x-road.eu/xsd/identifiers">
+    <SOAP-ENV:Header>
+      <xroad:client id:objectType="SUBSYSTEM">
+        <id:xRoadInstance>CS</id:xRoadInstance>
+        <id:memberClass>ORG</id:memberClass>
+        <id:memberCode>1111</id:memberCode>
+        <id:subsystemCode>TestClient</id:subsystemCode>
+      </xroad:client>
+
+      <xroad:service id:objectType="SERVICE">
+        <id:xRoadInstance>CS</id:xRoadInstance>
+        <id:memberClass>ORG</id:memberClass>
+        <id:memberCode>1111</id:memberCode>
+        <id:subsystemCode>TestService</id:subsystemCode>
+        <id:serviceCode>ettevottegaSeotudIsikudV1</id:serviceCode>
+      </xroad:service>
+
+      <xroad:id>{{uuid}}</xroad:id>
+      <xroad:protocolVersion>4.0</xroad:protocolVersion>
+      <xroad:userId>user1</xroad:userId>
+    </SOAP-ENV:Header>
+
+    <SOAP-ENV:Body>
+        <prod:ettevottegaSeotudIsikudV1 xmlns:prod="http://arireg.x-road.eu/producer/">
+            <prod:keha>
+                <prod:ariregistri_kood>{{ariregistri_kood}}</prod:ariregistri_kood>
+            </prod:keha>
+        </prod:ettevottegaSeotudIsikudV1>
+    </SOAP-ENV:Body>
+  </SOAP-ENV:Envelope>
