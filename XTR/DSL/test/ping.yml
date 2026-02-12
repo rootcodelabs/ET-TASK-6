@@ -1,6 +1,0 @@
-params: []
-
-method: GET
-service: http://host.docker.internal:80/r1/CS/ORG/1111/TestService/TEST123/ping
-
-envelope: >

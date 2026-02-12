@@ -1,8 +1,0 @@
-call_soap_ping:
-  call: http.post
-  args:
-    url: "http://xtr:8080/soap/ping"
-  result: ping_response
-  
-return_result:
-  return: ${ping_response}
