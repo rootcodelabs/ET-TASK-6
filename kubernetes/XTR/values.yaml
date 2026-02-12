@@ -1,0 +1,44 @@
+replicas: 1
+enabled: true
+
+release_name: "xtr"
+
+# XTR Configuration
+xtr:
+  image:
+    repository: "xtr"    # Update with actual XTR image repository
+    tag: "latest"
+    pullPolicy: Always
+  
+  environment:
+    dslPath: "/DSL"
+    adminApiUrl: "http://admin-backend:5000"
+    securityServer: "https://host.docker.internal:5500/"
+    vaultHost: "vault"
+
+  # Init container configuration for loading DSL and SSL files from repository
+  initContainers:
+    enabled: true
+    repository: "https://github.com/rootcodelabs/ET-TASK-6"  # Update with actual XTR repo
+    branch: "main"
+    dslSourcePath: "XTR/DSL"
+    sslSourcePath: "XTR/ssl"
+
+  # Sensitive values - stored in secret
+  secrets:
+    keystorePassword: "changeit"
+    keyPass: "changeit"
+    vaultToken: "root"
+
+service:
+  type: ClusterIP
+  port: 8081
+  targetPort: 8080
+
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "100m"
+  limits:
+    memory: "512Mi"
+    cpu: "500m"

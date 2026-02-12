@@ -1,0 +1,51 @@
+{{- if .Values.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Values.frontend.name }}"
+  labels:
+    app: "{{ .Values.frontend.name }}"
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: "{{ .Values.frontend.name }}"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Values.frontend.name }}"
+    spec:
+      containers:
+        - name: "{{ .Values.frontend.name }}"
+          image: "{{ .Values.frontend.image.repository }}:{{ .Values.frontend.image.tag }}"
+          imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.frontend.service.port }}
+              protocol: TCP
+          {{- if .Values.frontend.healthcheck.enabled }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.frontend.healthcheck.path }}
+              port: {{ .Values.frontend.service.port }}
+            initialDelaySeconds: {{ .Values.frontend.healthcheck.initialDelaySeconds }}
+            periodSeconds: {{ .Values.frontend.healthcheck.periodSeconds }}
+            timeoutSeconds: {{ .Values.frontend.healthcheck.timeoutSeconds }}
+            failureThreshold: {{ .Values.frontend.healthcheck.failureThreshold }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.frontend.healthcheck.path }}
+              port: {{ .Values.frontend.service.port }}
+            initialDelaySeconds: {{ .Values.frontend.healthcheck.initialDelaySeconds }}
+            periodSeconds: {{ .Values.frontend.healthcheck.periodSeconds }}
+            timeoutSeconds: {{ .Values.frontend.healthcheck.timeoutSeconds }}
+            failureThreshold: {{ .Values.frontend.healthcheck.failureThreshold }}
+          {{- end }}
+          resources:
+            requests:
+              memory: {{ .Values.frontend.resources.requests.memory | quote }}
+              cpu: {{ .Values.frontend.resources.requests.cpu | quote }}
+            limits:
+              memory: {{ .Values.frontend.resources.limits.memory | quote }}
+              cpu: {{ .Values.frontend.resources.limits.cpu | quote }}
+{{- end }}

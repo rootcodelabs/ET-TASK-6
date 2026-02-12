@@ -1,0 +1,89 @@
+replicas: 1
+enabled: true
+
+release_name: "xroad-admin-ui"
+domain: "domain"    # need to set actual domain here
+
+
+ingress:
+  frontend:
+    enabled: true
+
+# Backend Configuration
+backend:
+  name: "admin-backend"
+  image:
+    repository: "xroad-admin-backend"    # Update with actual backend image repository
+    tag: "latest"
+    pullPolicy: Always
+  
+  environment:
+    flaskEnv: "production"
+    flaskDebug: "1"
+  
+  # Init container configuration for loading DSL files from repository
+  initContainers:
+    enabled: true
+    repository: "https://github.com/rootcodelabs/ET-TASK-6"  # Update with actual repo
+    branch: "main"
+    ruuterDslPath: "XTR/RUUTER-DSL/Ruuter.public/xtee-secure-gateway"
+    xtrDslPath: "XTR/DSL"
+
+  # Sensitive values - stored in secret
+  secrets:
+    sqlalchemyDatabaseUri: "sqlite:////app/data/xroad_config.db"
+
+  service:
+    type: ClusterIP
+    port: 5000
+
+  healthcheck:
+    enabled: true
+    path: "/api/services/list"
+    initialDelaySeconds: 30
+    periodSeconds: 30
+    timeoutSeconds: 10
+    failureThreshold: 3
+
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "50m"
+    limits:
+      memory: "256Mi"
+      cpu: "250m"
+
+  persistence:
+    enabled: true
+    storageClass: ""
+    size: "1Gi"
+    accessMode: "ReadWriteOnce"
+
+# Frontend Configuration
+frontend:
+  name: "admin-frontend"
+  image:
+    repository: "xroad-admin-frontend"    # Update with actual frontend image repository
+    tag: "latest"
+    pullPolicy: Always
+
+  service:
+    type: ClusterIP
+    port: 3000
+    targetPort: 80
+
+  healthcheck:
+    enabled: true
+    path: "/"
+    initialDelaySeconds: 10
+    periodSeconds: 30
+    timeoutSeconds: 10
+    failureThreshold: 3
+
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "25m"
+    limits:
+      memory: "128Mi"
+      cpu: "100m"

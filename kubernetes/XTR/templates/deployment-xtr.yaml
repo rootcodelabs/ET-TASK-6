@@ -1,0 +1,88 @@
+{{- if .Values.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Values.release_name }}"
+  labels:
+    app: "{{ .Values.release_name }}"
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: "{{ .Values.release_name }}"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Values.release_name }}"
+    spec:
+      {{- if .Values.xtr.initContainers.enabled }}
+      initContainers:
+        - name: git-clone-files
+          image: alpine/git:latest
+          volumeMounts:
+            - name: dsl
+              mountPath: /DSL
+            - name: ssl
+              mountPath: /app/ssl
+          command:
+            - sh
+            - -c
+            - |
+              git clone --single-branch --depth 1 --branch {{ .Values.xtr.initContainers.branch }} {{ .Values.xtr.initContainers.repository }} /tmp/repo &&
+              cp -r /tmp/repo/{{ .Values.xtr.initContainers.dslSourcePath }}/* /DSL/ &&
+              cp -r /tmp/repo/{{ .Values.xtr.initContainers.sslSourcePath }}/* /app/ssl/
+      {{- end }}
+      containers:
+        - name: "{{ .Values.release_name }}"
+          image: "{{ .Values.xtr.image.repository }}:{{ .Values.xtr.image.tag }}"
+          imagePullPolicy: {{ .Values.xtr.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.targetPort }}
+              protocol: TCP
+          env:
+            - name: APPLICATION_DSLPATH
+              value: {{ .Values.xtr.environment.dslPath | quote }}
+            - name: APPLICATION_ADMIN_API_URL
+              value: {{ .Values.xtr.environment.adminApiUrl | quote }}
+            - name: APPLICATION_SECURITY_SERVER
+              value: {{ .Values.xtr.environment.securityServer | quote }}
+            - name: VAULT_HOST
+              value: {{ .Values.xtr.environment.vaultHost | quote }}
+            - name: KEYSTORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.release_name }}-secret"
+                  key: KEYSTORE_PASSWORD
+            - name: KEY_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.release_name }}-secret"
+                  key: KEY_PASS
+            - name: VAULT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.release_name }}-secret"
+                  key: VAULT_TOKEN
+          {{- if .Values.xtr.initContainers.enabled }}
+          volumeMounts:
+            - name: dsl
+              mountPath: /DSL
+            - name: ssl
+              mountPath: /app/ssl
+          {{- end }}
+          resources:
+            requests:
+              memory: {{ .Values.resources.requests.memory | quote }}
+              cpu: {{ .Values.resources.requests.cpu | quote }}
+            limits:
+              memory: {{ .Values.resources.limits.memory | quote }}
+              cpu: {{ .Values.resources.limits.cpu | quote }}
+      {{- if .Values.xtr.initContainers.enabled }}
+      volumes:
+        - name: dsl
+          emptyDir: {}
+        - name: ssl
+          emptyDir: {}
+      {{- end }}
+{{- end }}

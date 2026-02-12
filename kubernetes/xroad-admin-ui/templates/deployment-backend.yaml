@@ -1,0 +1,109 @@
+{{- if .Values.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Values.backend.name }}"
+  labels:
+    app: "{{ .Values.backend.name }}"
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: "{{ .Values.backend.name }}"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Values.backend.name }}"
+    spec:
+      {{- if .Values.backend.initContainers.enabled }}
+      initContainers:
+        - name: git-clone-dsl
+          image: alpine/git:latest
+          volumeMounts:
+            - name: ruuter-dsl
+              mountPath: /app/dsl
+            - name: xtr-dsl
+              mountPath: /app/xtr_dsl
+          command:
+            - sh
+            - -c
+            - |
+              git clone --single-branch --depth 1 --branch {{ .Values.backend.initContainers.branch }} {{ .Values.backend.initContainers.repository }} /tmp/repo &&
+              mkdir -p /app/dsl &&
+              mkdir -p /app/xtr_dsl &&
+              cp -r /tmp/repo/{{ .Values.backend.initContainers.ruuterDslPath }}/* /app/dsl/ &&
+              cp -r /tmp/repo/{{ .Values.backend.initContainers.xtrDslPath }}/* /app/xtr_dsl/
+      {{- end }}
+      containers:
+        - name: "{{ .Values.backend.name }}"
+          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
+          imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.backend.service.port }}
+              protocol: TCP
+          env:
+            - name: FLASK_ENV
+              value: {{ .Values.backend.environment.flaskEnv | quote }}
+            - name: FLASK_DEBUG
+              value: {{ .Values.backend.environment.flaskDebug | quote }}
+            - name: SQLALCHEMY_DATABASE_URI
+              valueFrom:
+                secretKeyRef:
+                  name: "{{ .Values.backend.name }}-secret"
+                  key: SQLALCHEMY_DATABASE_URI
+          {{- if .Values.backend.initContainers.enabled }}
+          volumeMounts:
+            - name: ruuter-dsl
+              mountPath: /app/dsl
+              readOnly: true
+            - name: xtr-dsl
+              mountPath: /app/xtr_dsl
+              readOnly: true
+            {{- if .Values.backend.persistence.enabled }}
+            - name: data
+              mountPath: /app/data
+            {{- end }}
+          {{- else if .Values.backend.persistence.enabled }}
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+          {{- end }}
+          {{- if .Values.backend.healthcheck.enabled }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.backend.healthcheck.path }}
+              port: {{ .Values.backend.service.port }}
+            initialDelaySeconds: {{ .Values.backend.healthcheck.initialDelaySeconds }}
+            periodSeconds: {{ .Values.backend.healthcheck.periodSeconds }}
+            timeoutSeconds: {{ .Values.backend.healthcheck.timeoutSeconds }}
+            failureThreshold: {{ .Values.backend.healthcheck.failureThreshold }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.backend.healthcheck.path }}
+              port: {{ .Values.backend.service.port }}
+            initialDelaySeconds: {{ .Values.backend.healthcheck.initialDelaySeconds }}
+            periodSeconds: {{ .Values.backend.healthcheck.periodSeconds }}
+            timeoutSeconds: {{ .Values.backend.healthcheck.timeoutSeconds }}
+            failureThreshold: {{ .Values.backend.healthcheck.failureThreshold }}
+          {{- end }}
+          resources:
+            requests:
+              memory: {{ .Values.backend.resources.requests.memory | quote }}
+              cpu: {{ .Values.backend.resources.requests.cpu | quote }}
+            limits:
+              memory: {{ .Values.backend.resources.limits.memory | quote }}
+              cpu: {{ .Values.backend.resources.limits.cpu | quote }}
+      volumes:
+        {{- if .Values.backend.initContainers.enabled }}
+        - name: ruuter-dsl
+          emptyDir: {}
+        - name: xtr-dsl
+          emptyDir: {}
+        {{- end }}
+        {{- if .Values.backend.persistence.enabled }}
+        - name: data
+          persistentVolumeClaim:
+            claimName: "{{ .Values.backend.name }}-pvc"
+        {{- end }}
+{{- end }}

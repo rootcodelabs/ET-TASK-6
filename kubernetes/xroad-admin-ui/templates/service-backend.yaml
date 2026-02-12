@@ -1,0 +1,17 @@
+{{- if .Values.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Values.backend.name }}"
+  labels:
+    app: "{{ .Values.backend.name }}"
+spec:
+  type: {{ .Values.backend.service.type }}
+  ports:
+    - port: {{ .Values.backend.service.port }}
+      targetPort: {{ .Values.backend.service.port }}
+      protocol: TCP
+      name: http
+  selector:
+    app: "{{ .Values.backend.name }}"
+{{- end }}
